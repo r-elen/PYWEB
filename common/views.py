@@ -18,10 +18,15 @@ class CurrentDateView(View):
 
 class HelloView(View):
     def get(self, request):
-        html = """<h1>Hello, World</h1>"""
+        html = "<h1>Hello, World</h1>"
         return HttpResponse(html)
 
 
 class IndexView(View):
    def get(self, request):
        return render(request, 'common/index.html')
+
+
+class LoginView(View):
+   def get(self, request):
+       return render(request, 'login/index.html')
