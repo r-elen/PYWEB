@@ -9,3 +9,6 @@ python manage.py runserver
 
 копирование файла
 cp template.env .env
+
+
+404
