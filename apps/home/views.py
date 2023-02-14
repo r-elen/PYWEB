@@ -53,5 +53,9 @@ class ViewContact(View):
    def get(self, request):
        return render(request, 'home/contact.html')
 
+class ViewWishlist(View):
+   def get(self, request):
+       return render(request, 'home/wishlist.html')
+
 
 
