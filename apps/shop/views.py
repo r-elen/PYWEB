@@ -13,7 +13,3 @@ class ViewCart(View):
 class ViewProductSingle(View):
    def get(self, request):
        return render(request, 'shop/product-single.html')
-
-class ViewWishlist(View):
-   def get(self, request):
-       return render(request, 'shop/wishlist.html')
