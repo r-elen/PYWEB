@@ -28,6 +28,13 @@ class ViewCartDel(View):
        cart_item.delete()
        return redirect('cart_shop:cart')
 
+class ViewCartAdd(View):
+   def get(self, request, item_id):
+       cart_item = get_object_or_404(CartItemsNew, id=item_id)
+       cart_item.add()
+       return redirect('cart_shop:cart')
+
+
 
 def view_cart_total(request):
    cart_items = Wishlist.objects.filter(cart__user=request.user)
@@ -61,6 +68,13 @@ class ViewWishlist(View):
 
 class ViewWishlistDel(View):
    def get(self, request, item_id):
-       cart_item = get_object_or_404(CartItemsNew, id=item_id)
+       cart_item = get_object_or_404(Wishlist, id=item_id)
        cart_item.delete()
+       return redirect('cart_shop:wishlist')
+
+
+class ViewWishlistAdd(View):
+   def get(self, request, item_id):
+       cart_item = get_object_or_404(CartItemsNew, id=item_id)
+       cart_item.add()
        return redirect('cart_shop:wishlist')
