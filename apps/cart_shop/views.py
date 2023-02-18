@@ -22,6 +22,12 @@ class ViewCartBuy(View):
        cart_item = CartItemsNew(cart=cart_user, product=product)
        cart_item.save()
 
+class ViewCartDel(View):
+   def get(self, request, item_id):
+       cart_item = get_object_or_404(CartItemsNew, id=item_id)
+       cart_item.delete()
+       return redirect('cart_shop:cart')
+
 
 def view_cart_total(request):
    cart_items = Wishlist.objects.filter(cart__user=request.user)
@@ -37,12 +43,8 @@ def update_item(request, item_id):
    return redirect('cart_shop:view_cart_wishlist')
 
 
-def del_from_cart(request, item_id):
-   Wishlist.objects.filter(id=item_id).delete()
-   return redirect('cart_shop:view_cart_wishlist')
 
-
-def checkout_wishlist(request):
+def checkout_cart(request):
    # code to handle checkout process
    return redirect('cart_shop:view_cart_wishlist')
 
@@ -55,25 +57,10 @@ class ViewWishlist(View):
 
        return render(request, 'cart_shop/wishlist.html', context)
 
-def view_cart_wishlist(request):
-   cart_items = Wishlist.objects.filter(cart__user=request.user)
-   total_price = sum(item.product.price * item.quantity for item in cart_items)
-   context = {'cart_items': cart_items, 'total_price': total_price}
-   return render(request, 'cart_shop/wishlist.html', context)
 
 
-def update_item_wishlist(request, item_id):
-   item = Wishlist.objects.get(id=item_id)
-   item.quantity += int(request.GET.get('quantity'))
-   item.save()
-   return redirect('cart_shop:view_cart_wishlist')
-
-
-def remove_item_wishlist(request, item_id):
-   Wishlist.objects.filter(id=item_id).delete()
-   return redirect('cart_shop:view_cart_wishlist')
-
-
-def checkout_wishlist(request):
-   # code to handle checkout process
-   return redirect('cart_shop:view_cart_wishlist')
+class ViewWishlistDel(View):
+   def get(self, request, item_id):
+       cart_item = get_object_or_404(CartItemsNew, id=item_id)
+       cart_item.delete()
+       return redirect('cart_shop:wishlist')
