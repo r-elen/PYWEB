@@ -2,7 +2,9 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import CartItemShop, Product
+from .models import CartUser, SingleProduct, Wishlist
 
-admin.site.register(CartItemShop)
-admin.site.register(Product)
+admin.site.register(CartUser)
+admin.site.register(SingleProduct)
+admin.site.register(Wishlist)
+
