@@ -10,7 +10,7 @@ from .models import Wishlist, CartItemsNew, SingleProduct, CartUser
 class ViewCart(View):
    def get(self, request):
 
-        data = CartItemsNew.objects.all()
+        data = CartItemsNew.objects.filter(cart__user=request.user)
         context = {'data': data}
         return render(request, 'cart_shop/cart.html', context)
 
@@ -21,12 +21,15 @@ class ViewCartBuy(View):
        cart_user = get_object_or_404(CartUser, user=request.user)
        cart_item = CartItemsNew(cart=cart_user, product=product)
        cart_item.save()
+       return redirect('cart_shop:cart')
+
 
 class ViewCartDel(View):
    def get(self, request, item_id):
        cart_item = get_object_or_404(CartItemsNew, id=item_id)
        cart_item.delete()
        return redirect('cart_shop:cart')
+
 
 class ViewCartAdd(View):
    def get(self, request, product_id):
@@ -61,11 +64,13 @@ def checkout_cart(request):
 
 class ViewWishlist(View):
    def get(self, request):
-       data = Wishlist.objects.all()
-       context = {'data': data}
+       if request.user.is_authenticated:
+           data = Wishlist.objects.filter(cart__user=request.user)
+           context = {'data': data}
 
-       return render(request, 'cart_shop/wishlist.html', context)
+           return render(request, 'cart_shop/wishlist.html', context)
 
+       return redirect('auth_shop:login')
 
 
 class ViewWishlistDel(View):
