@@ -29,10 +29,12 @@ class ViewCartDel(View):
        return redirect('cart_shop:cart')
 
 class ViewCartAdd(View):
-   def get(self, request, item_id):
-       cart_item = get_object_or_404(CartItemsNew, id=item_id)
-       cart_item.add()
-       return redirect('cart_shop:cart')
+   def get(self, request, product_id):
+       product = get_object_or_404(SingleProduct, id=product_id)
+       cart_user = get_object_or_404(CartUser, user=request.user)
+       cart_item = CartItemsNew(cart=cart_user, product=product)
+       cart_item.save()
+       return redirect('home:index')
 
 
 
