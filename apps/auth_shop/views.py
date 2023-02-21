@@ -10,6 +10,7 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
 from django.contrib.auth import authenticate, login
+from apps.cart_shop.models import CartUser
 
 
 class LoginView(View):
@@ -41,6 +42,8 @@ class CreateUserView(View):
            password = form.cleaned_data.get('password1')
            user = User.objects.create_user(username=username, email=email, password=password)
            user.save()
+           cart = CartUser(user=user)
+           cart.save()
            login(request, user)
            return redirect('home:index')
        return redirect('auth_shop:login')
