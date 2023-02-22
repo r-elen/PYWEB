@@ -92,5 +92,4 @@ class ViewWishlistAdd(View):
            cart_item = Wishlist(cart=cart_user, product=product)
            cart_item.save()
            return redirect('home:index')
-
        return redirect('auth_shop:login')
