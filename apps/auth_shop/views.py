@@ -9,7 +9,7 @@ from .forms import CustomUserCreationForm
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import AuthenticationForm
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import authenticate, login, logout
 from apps.cart_shop.models import CartUser
 
 
@@ -29,6 +29,11 @@ class LoginView(View):
                return redirect('home:index')
        return redirect('auth_shop:login')
 
+
+class LogOutView(View):
+    def get(self, request):
+        logout(request)
+        return redirect('home:index')
 
 class CreateUserView(View):
    def get(self, request):
