@@ -9,20 +9,23 @@ from .models import Wishlist, CartItemsNew, SingleProduct, CartUser
 
 class ViewCart(View):
    def get(self, request):
-
-        data = CartItemsNew.objects.filter(cart__user=request.user)
-        context = {'data': data}
-        return render(request, 'cart_shop/cart.html', context)
+       if request.user.is_authenticated:
+            data = CartItemsNew.objects.filter(cart__user=request.user)
+            context = {'data': data}
+            return render(request, 'cart_shop/cart.html', context)
+       return render(request, 'cart_shop/cart.html')
 
 
 class ViewCartBuy(View):
    def get(self, request, product_id):
-       product = get_object_or_404(SingleProduct, id=product_id)
-       cart_user = get_object_or_404(CartUser, user=request.user)
-       cart_item = CartItemsNew(cart=cart_user, product=product)
-       cart_item.save()
-       return redirect('cart_shop:cart')
+       if request.user.is_authenticated:
+           product = get_object_or_404(SingleProduct, id=product_id)
+           cart_user = get_object_or_404(CartUser, user=request.user)
+           cart_item = CartItemsNew(cart=cart_user, product=product)
+           cart_item.save()
+           return redirect('cart_shop:cart')
 
+       return redirect('auth_shop:login')
 
 class ViewCartDel(View):
    def get(self, request, item_id):
@@ -33,12 +36,13 @@ class ViewCartDel(View):
 
 class ViewCartAdd(View):
    def get(self, request, product_id):
-       product = get_object_or_404(SingleProduct, id=product_id)
-       cart_user = get_object_or_404(CartUser, user=request.user)
-       cart_item = CartItemsNew(cart=cart_user, product=product)
-       cart_item.save()
-       return redirect('home:index')
-
+       if request.user.is_authenticated:
+           product = get_object_or_404(SingleProduct, id=product_id)
+           cart_user = get_object_or_404(CartUser, user=request.user)
+           cart_item = CartItemsNew(cart=cart_user, product=product)
+           cart_item.save()
+           return redirect('home:index')
+       return redirect('auth_shop:login')
 
 
 def view_cart_total(request):
@@ -82,8 +86,11 @@ class ViewWishlistDel(View):
 
 class ViewWishlistAdd(View):
    def get(self, request, product_id):
-       product = get_object_or_404(SingleProduct, id=product_id)
-       cart_user = get_object_or_404(CartUser, user=request.user)
-       cart_item = Wishlist(cart=cart_user, product=product)
-       cart_item.save()
-       return redirect('home:index')
+       if request.user.is_authenticated:
+           product = get_object_or_404(SingleProduct, id=product_id)
+           cart_user = get_object_or_404(CartUser, user=request.user)
+           cart_item = Wishlist(cart=cart_user, product=product)
+           cart_item.save()
+           return redirect('home:index')
+
+       return redirect('auth_shop:login')
