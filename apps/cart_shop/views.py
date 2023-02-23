@@ -131,6 +131,12 @@ class ViewWishlistAdd(View):
            product = get_object_or_404(SingleProduct, id=product_id)
            cart_user = get_object_or_404(CartUser, user=request.user)
            cart_item = Wishlist(cart=cart_user, product=product)
-           cart_item.save()
+
+           data = Wishlist.objects.filter(cart__user=request.user, product=product)
+           if not data:
+               print('saving')
+               cart_item.save()
+
+
            return redirect('home:index')
        return redirect('auth_shop:login')
