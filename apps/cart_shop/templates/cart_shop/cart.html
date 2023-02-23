@@ -43,16 +43,18 @@
 								  </td>
 
       								<td class="price">${{item.product.price}}</td>
-								  <td class="quantity">
-								  <div class="input-group mb-3">
-									  <input type="text" name="quantity" class="quantity form-control input-number" value={{item.quantity}} min="1" max="100">
-								  </div>
-							   </td>
 
-							  <td class="total">${% widthratio item.product.price 1 item.quantity %}</td>
+								  <td>{{ item.quantity }}</td>
+									   <td>${% widthratio item.product.price 1 item.quantity %}</td>
+									   <td>
+										   <a href="{% url 'cart_shop:update_item' item.id %}?quantity=1">+</a>
+										   <a href="{% url 'cart_shop:update_item' item.id %}?quantity=-1">-</a>
+									   </td>
+							  </tr>
+
+
 							</tr><!-- END TR-->
-						{%endfor%}
-
+							{%endfor%}
 
 						    </tbody>
 						  </table>
@@ -111,8 +113,8 @@
 					  </p>
 					  <hr>
 					  <p class="d-flex total-price">
-						 <span>Total</span>
-						 <span>${{total_sum}}</span>
+						 <span>Total </span>
+						 <span>${{total_price}}</span>
 					  </p>
 					</div>
 

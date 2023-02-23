@@ -11,4 +11,9 @@ python manage.py runserver
 cp template.env .env
 
 
-404
+
+python manage.py makemigrations
+
+python manage.py migrate
+
+python3.10 manage.py collectstatic
